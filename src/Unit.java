@@ -8,6 +8,8 @@ public class Unit {
 	double width, height;
 	double targetX, targetY;
 	double speed = 10;
+	double health = 1;
+	double damage = 0.5;
 
 	Unit() {
 		Random generator = new Random(System.nanoTime());
@@ -46,5 +48,28 @@ public class Unit {
 	public void paint(Graphics g, Color c) {
 		g.setColor(c);
 		g.fillRect((int)x, (int)y, (int)width, (int)height);
+		g.setColor(Color.BLACK);
+		g.drawRect((int)x, (int)y, (int)width, (int)height);
+		g.setColor(Color.BLACK);
+		g.fillRect((int)x, (int)y, (int)(width*health), (int)(height/5));
+	}
+
+	public void damage(double delta, Unit unit) {
+		unit.health = Math.max(0, unit.health - delta*this.damage*this.overlap(unit)/width/height);
+	}
+
+	public double overlap(Unit unit) {
+		double xOverlap , yOverlap;
+		if (this.x <= unit.x) {
+			xOverlap = Math.min(this.x + this.width - unit.x, unit.width);
+		} else {
+			xOverlap = Math.min(unit.x + unit.width - this.x, this.width);
+		}
+		if (this.y <= unit.y) {
+			yOverlap = Math.min(this.y + this.height - unit.y, unit.height);
+		} else {
+			yOverlap = Math.min(unit.y + unit.height - this.y, this.height);
+		}
+		return Math.max(xOverlap,0) * Math.max(yOverlap, 0);
 	}
 }

@@ -1,7 +1,6 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -35,6 +34,8 @@ public class Server {
 			serverFrame.setVisible(true);
 			serverPanel = new ServerPanel();
 			serverFrame.add(serverPanel);
+			serverPanel.setPreferredSize(new Dimension(width,height));
+			serverFrame.pack();
 		}
 		
 		// Gameloop
@@ -63,6 +64,12 @@ public class Server {
 	private void update(double delta) {
 		for (Player player : players) {
 			player.update(delta);
+		}
+		for (Player player : players) {
+			player.attack(delta, players);
+		}
+		for (Player player : players) {
+			player.units.removeIf(unit -> unit.health <= 0);
 		}
 	}
 	

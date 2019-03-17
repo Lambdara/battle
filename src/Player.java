@@ -30,4 +30,12 @@ public class Player {
 		for (Unit unit : units)
 			unit.paint(g, color);
 	}
+
+	public void attack(double delta, ArrayList<Player> players) {
+		for (Player player : players)
+			if (player != this)
+				for (Unit myUnit : this.units)
+					for (Unit theirUnit : player.units)
+						myUnit.damage(delta, theirUnit);
+	}
 }
