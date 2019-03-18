@@ -2,6 +2,7 @@ import java.awt.Dimension;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class Server {
 	
 	Server() {
 		gamestate = new GameState();
+		gamestate.generatePlayers();
 		connections = new ArrayList<Connection>();
 		
 		if(visual) {
@@ -45,7 +47,7 @@ public class Server {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-		new Thread(new Connector()).start();
+		new Thread(new Connector(this)).start();
 		
 		// Gameloop
 		long time = System.nanoTime();
@@ -83,14 +85,21 @@ public class Server {
 	}
 	
 	class Connector implements Runnable {
+		
+		Server server;
+		
+		Connector(Server server) {
+			this.server = server;
+		}
 
 		@Override
 		public void run() {
 			while(true) {
 				try {
 					Socket socket = serverSocket.accept();
-					Connection connection = new Connection(socket);
+					Connection connection = new Connection(socket, server);
 					connections.add(connection);
+					new Thread(connection).start();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -103,9 +112,12 @@ public class Server {
 		Socket socket;
 		DataInputStream fromClient;
 		DataOutputStream toClient;
+		ObjectOutputStream objectToClient;
+		Server server;
 		
-		Connection(Socket socket) {
+		Connection(Socket socket, Server server) {
 			this.socket = socket;
+			this.server = server;
 		}
 		
 		@Override
@@ -113,7 +125,18 @@ public class Server {
 			try {
 				fromClient = new DataInputStream(socket.getInputStream());
 				toClient = new DataOutputStream(socket.getOutputStream());
+				objectToClient = new ObjectOutputStream(toClient);
 			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				while (true) {
+					objectToClient.writeUnshared(server.gamestate);
+					objectToClient.flush();
+					objectToClient.reset();
+					Thread.sleep((int)(1/tickspeed*1000));
+				}
+			} catch (IOException | InterruptedException e) {
 				e.printStackTrace();
 			}
 		}

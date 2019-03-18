@@ -1,17 +1,26 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.Random;
 
-public class Unit {
+public class Unit implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2458715509419927927L;
+	static int currentId = 0;
 	double x, y;
 	double width, height;
 	double targetX, targetY;
 	double speed = 10;
 	double health = 1;
 	double damage = 0.5;
+	int id;
 
 	Unit() {
+		id = currentId;
+		currentId++;
 		Random generator = new Random(System.nanoTime());
 		x = generator.nextDouble() * 600 + 100;
 		y = generator.nextDouble() * 400 + 100;
@@ -29,7 +38,6 @@ public class Unit {
 		double total = Math.sqrt(diffX * diffX + diffY * diffY);
 		diffX /= total;
 		diffY /= total;
-		System.out.println();
 		if (total == 0)
 			return;
 		

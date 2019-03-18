@@ -1,9 +1,14 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Player {
+public class Player implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3498870086529871294L;
 	ArrayList<Unit> units;
 	Color color;
 	

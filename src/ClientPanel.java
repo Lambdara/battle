@@ -1,3 +1,4 @@
+import java.awt.Graphics;
 
 public class ClientPanel extends ServerPanel {
 
@@ -10,4 +11,8 @@ public class ClientPanel extends ServerPanel {
 		super(gamestate, width, height);
 	}
 
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+	}
 }
