@@ -1,3 +1,5 @@
+package battlegame;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -11,7 +13,7 @@ class ServerPanel extends JPanel {
 	private static final long serialVersionUID = 680263470536700273L;
 
 	BufferedImage buffer;
-	GameState gamestate;
+	public GameState gamestate;
 		
 	ServerPanel(GameState gamestate, int width, int height){
 		super();

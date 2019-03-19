@@ -1,4 +1,4 @@
-package ClientCommands;
+package battlegame.ClientCommands;
 
 import java.io.Serializable;
 

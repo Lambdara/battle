@@ -1,8 +1,10 @@
+package battlegame;
+
 import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import ClientCommands.MoveCommand;
+import battlegame.ClientCommands.MoveCommand;
 
 public class GameState implements Serializable{
 	
@@ -10,7 +12,7 @@ public class GameState implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 7821330915361618299L;
-	ArrayList<Player> players;
+	public ArrayList<Player> players;
 	
 	GameState() {
 		players = new ArrayList<Player>();
