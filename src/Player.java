@@ -43,4 +43,9 @@ public class Player implements Serializable {
 					for (Unit theirUnit : player.units)
 						myUnit.damage(delta, theirUnit);
 	}
+
+	public void paint(Graphics g, ArrayList<Integer> selection) {
+		for (Unit unit : units)
+			unit.paint(g, color, selection);
+	}
 }

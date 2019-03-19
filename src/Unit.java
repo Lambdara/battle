@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Unit implements Serializable{
@@ -24,8 +25,10 @@ public class Unit implements Serializable{
 		Random generator = new Random(System.nanoTime());
 		x = generator.nextDouble() * 600 + 100;
 		y = generator.nextDouble() * 400 + 100;
-		targetX = generator.nextDouble() * 600 + 100;
-		targetY = generator.nextDouble() * 400 + 100;
+		targetX = x;
+		targetY = y;
+		//targetX = generator.nextDouble() * 600 + 100;
+		//targetY = generator.nextDouble() * 400 + 100;
 		width = 50;
 		height = 20;
 	}
@@ -79,5 +82,13 @@ public class Unit implements Serializable{
 			yOverlap = Math.min(unit.y + unit.height - this.y, this.height);
 		}
 		return Math.max(xOverlap,0) * Math.max(yOverlap, 0);
+	}
+
+	public void paint(Graphics g, Color color, ArrayList<Integer> selection) {
+		paint(g,color);
+		if (selection.contains(id)) {
+			g.setColor(Color.BLACK);
+			g.drawRect((int)(x-2), (int)(y-2), (int)(width+4), (int)(height+4));
+		}
 	}
 }
